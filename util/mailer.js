@@ -43,5 +43,7 @@ module.exports = class Email {
   async welcomemail() {
     await this.send("signup", "Your OTP to activate your account");
   }
- 
+  async forgetpassword() {
+    await this.send("forgetpassword", "Your OTP for password change");
+  }
 };

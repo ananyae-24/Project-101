@@ -19,8 +19,9 @@ name: {
   },
   email:{
       type: String,
-    
-  },number:{type:Number,unique:true},
+      unique:true,sparse:true
+  },
+  number:{type:Number ,unique:true,sparse:true},
   password:{
     type:String,
     select:false
@@ -36,6 +37,11 @@ name: {
       },
       message: 'password and passwordconfirm not same',
     }},
+    passwordChangedAt: {
+      type: Date,
+      default: Date.now(),
+      select: false,
+    },
     /////////////////////////////////////////////////////////////////
     token:{type:String},
     validtill:{type:Date}
@@ -62,7 +68,7 @@ schema.methods.generatetoken=async function (){
     .createHash('sha256')
     .update(token)
     .digest('hex');
-    this.validtill=Date.now()+15*60*1000;
+    this.validtill=Date.now()+10*60*1000;
     return token;
 }
 schema.methods.comparetoken=async function(usertoken,dbtoken){
@@ -80,5 +86,13 @@ schema.methods.generateotp=async function (){
     this.validtill=Date.now()+2*60*1000;
     return token;
 }
+schema.methods.changepassword = async function (time) {
+  // console.log(time,this.passwordChangedAt);
+  if (this.passwordChangedAt) {
+    let temp = parseInt(this.passwordChangedAt.getTime() / 1000, 10);
+    return time > temp;
+  }
+  return false;
+};
 model=mongoose.model("User",schema);
 module.exports=model;
