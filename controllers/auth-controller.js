@@ -91,8 +91,11 @@ exports.signup=catchAsync(async (req,res,next)=>{
     }
 })
 exports.activatenumber=catchAsync(async (req,res,next)=>{
-    let user= await User.findById(req.body._id)
-    if(user.active_no) return next(new apierror("The number is already verified",300))
+    let number=req.body.number;
+    let user= await User.findById(req.body._id);
+    let old_number=user.number;
+    if(user.active_no && old_number==number) return next(new apierror("The number is already verified",300))
+    user.number=number;user.active_no=false;
     let token =await user.generateotp();
     await user.save({ validateBeforeSave: false });
     try{
@@ -105,6 +108,8 @@ exports.activatenumber=catchAsync(async (req,res,next)=>{
     catch(err){
         user.token=null;
         user.validtill=null;
+        user.number=old_number;
+        active_no=true;
         user.save({validateBeforeSave:false});
         res.status(500).json({
             message:err,status:"fail"})

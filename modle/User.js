@@ -2,6 +2,17 @@ const mongoose = require("mongoose");
 const crypto=require ("crypto")
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
+const pointSchema = new mongoose.Schema({
+  type: {
+    type: String,
+    enum: ['Point'],
+    required: true
+  },
+  coordinates: {
+    type: [Number],
+    required: true
+  }
+});
 const schema=new mongoose.Schema({
     /////////////////////////////////////
 name: {
@@ -42,6 +53,9 @@ name: {
       default: Date.now(),
       select: false,
     },
+    location: {
+      type: pointSchema,
+    },
     /////////////////////////////////////////////////////////////////
     token:{type:String},
     validtill:{type:Date}
@@ -50,12 +64,15 @@ name: {
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
   })
+schema.index({number:1})
+schema.index({email:1}) 
 schema.pre('save',async function (next){
     if (!this.isModified('password')) next()
     this.password=await bcrypt.hash(this.password,12);
     this.confirmPassword=null;
     next()
 });
+
 schema.methods.correctPassword = async function (
     currentpassword,
     userpassword
