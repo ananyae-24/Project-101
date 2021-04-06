@@ -154,7 +154,7 @@ exports.isProtected = catchAsync(async (req, res, next) => {
     const data = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
     let user = await User.findById(data._id);
     
-     console.log(user,"isProtected");
+    //  console.log(user,"isProtected");
     if (!user)
       return next(new apierror('user was deleated please login again', 401));
     if (await user.changepassword(data.iat))
