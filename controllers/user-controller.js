@@ -51,7 +51,7 @@ exports.updateuser=catchAsync(async (req,res,next)=>{
     let user=await User.findOneAndUpdate({_id},req.body,{
         returnOriginal: false
       });
-   if(!user)return next(new apierror("user doesnot exist",300))
+   if(!user)return next(new apierror("user doesnot gexist",300))
     res.status(200).json({status:"success",data:{user}})
 });
 exports.getUser=catchAsync(async (req,res,next)=>{

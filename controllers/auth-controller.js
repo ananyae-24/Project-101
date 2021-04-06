@@ -117,6 +117,7 @@ exports.activatenumber=catchAsync(async (req,res,next)=>{
 
 })
 exports.login=catchAsync(async(req,res,next)=>{
+    console.log(req.body)
 let {email,password,number}=req.body
     console.log(email,password,number)
     if (!email&&!number) return next(new apierror("Invalid  request",300))
