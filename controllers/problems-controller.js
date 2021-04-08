@@ -26,9 +26,10 @@ const upload = multer({ storage: multerStorage, fileFilter: multerfilter });
 exports.uploadmultipleimages=upload.fields([{name:"photo",maxCount:5}])
 exports.reqbodyupadate=catchAsync(async(req,res,next)=>{
    
-    let body=req.files.photo.map(el=>el.filename)
-    // console.log(body)
-    req.body.photo=body
+     if(req.files.photo)
+   { let body=req.files.photo.map(el=>el.filename)
+    
+    req.body.photo=body}
     next()
 })
 
@@ -46,7 +47,8 @@ exports.makeproblem=catchAsync(async (req,res,next)=>{
     const URL = `${req.protocol}://${req.get(
     'host'
   )}/public/images/`
-  let temp=modifyobj(URL,problem.toObject({ getters: true }))
+   let temp=modifyobj(URL,problem.toObject({ getters: true }))
+ 
     res.status(200).json({status:"success",data:{problem:temp}})
 });
 exports.updateproblem=catchAsync(async(req,res,next)=>{
