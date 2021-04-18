@@ -81,7 +81,7 @@ exports.getallproblem=catchAsync(async(req,res,next)=>{
     .sort()
     .limitFields()
     .paginate();
-  const problems = await features.query;
+  let problems = await features.query;
   const URL = `${req.protocol}://${req.get(
     'host'
   )}/public/images/`;

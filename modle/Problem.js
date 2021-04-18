@@ -32,7 +32,8 @@ const schema=new mongoose.Schema({
     },
     photo:{type:[String]},
     probtype:{type:String,
-    enum:["garbage","electrical","road"]}
+    enum:["garbage","electrical","road"]},
+    description:{type:"String",trim:true}
 
 },{
     toJSON: { virtuals: true },
