@@ -49,6 +49,8 @@ exports.signup=catchAsync(async (req,res,next)=>{
         else user = await User.deleteOne({_id:user._id},(err)=>console.log(err));
     }
     /// make new user
+    if(req.body.number)
+    delete req.body.number
     user=await User.create(req.body);
     let token =await user.generatetoken();
     await user.save({ validateBeforeSave: false });
@@ -65,7 +67,7 @@ exports.signup=catchAsync(async (req,res,next)=>{
         res.status(500).json({
             message:err,status:"fail"})
     }}
-    if(req.body.number){
+    else{
         let user=await User.findOne({number:req.body.number})
     if (user)
     {
@@ -172,7 +174,13 @@ exports.isProtected = catchAsync(async (req, res, next) => {
     };
   };
 exports.forgetpassword=catchAsync(async (req,res,next)=>{
-    let {email,number}=req.body;
+    let val=req.params.value;
+    let email=null;
+    let number=null;
+    if (isNaN(val))
+    email=val;
+    else 
+    number=val;
     if(!email && !number) return next(new apiError("Invalid request",300))
     if(email){
       user=await User.findOne({email,active:true})

@@ -11,14 +11,27 @@ module.exports = class Email {
     this.password = password;
   }
   createTransporter() {
-    return nodemailer.createTransport({
-      host: process.env.EMAIL_HOST,
-      port: process.env._PORT,
+    return nodemailer.createTransport(
+    //   {
+    //   host: process.env.EMAIL_HOST,
+    //   port: process.env._PORT,
+    //   auth: {
+    //     user: process.env.EMAIL_USERNAME,
+    //     pass: process.env.EMAIL_PASSWORD,
+    //   },
+    // }
+    {
+      host: 'smtp.gmail.com',
+      port: 587,
+      secure: false,
+      requireTLS: true,
       auth: {
-        user: process.env.EMAIL_USERNAME,
-        pass: process.env.EMAIL_PASSWORD,
+      user: process.env.SENDGRID_USER,
+      pass: process.env.SENDGRID_PASSWORD,
       },
-    });
+     }
+    
+    );
   }
   async send(template, subject) {
     const html = pug.renderFile(

@@ -7,7 +7,7 @@ router.route('/activate/:token&:email').patch(auth_controller.activateaccount)
 router.route('/activate_no/:token&:number').patch(auth_controller.activateaccount_no)
 router.route('/verifynumber').post(auth_controller.activatenumber);
 router.route('/login').post(auth_controller.login);
-router.route('/forgetpasswordotp').get(auth_controller.forgetpassword);
+router.route('/forgetpasswordotp/:value').get(auth_controller.forgetpassword);
 router.route('/forgetpassword').patch(user_controler.changepassword);
 ///////////////////////////
 router.route("/details/:id").get(user_controler.getUser).patch(user_controler.updateuser);
