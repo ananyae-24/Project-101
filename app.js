@@ -39,7 +39,7 @@ app.use("/api/v1/user",user_router);
 app.use("/api/v1/problem",problem_router);
 
 app.all('*', (req, res, next) => {
-  console.log(req)
+  // console.log(req)
     return next(new apierror('invalid api request', 400));
   });
 app.use(error);

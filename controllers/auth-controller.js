@@ -94,6 +94,7 @@ exports.signup=catchAsync(async (req,res,next)=>{
 })
 exports.activatenumber=catchAsync(async (req,res,next)=>{
     let number=req.body.number;
+    // console.log(number)
     let user= await User.findById(req.body._id);
     let old_number=user.number;
     if(user.active_no && old_number==number) return next(new apierror("The number is already verified",300))
@@ -119,16 +120,16 @@ exports.activatenumber=catchAsync(async (req,res,next)=>{
 
 })
 exports.login=catchAsync(async(req,res,next)=>{
-    console.log(req.body)
+    // console.log(req.body)
 let {email,password,number}=req.body
-    console.log(email,password,number)
+    // console.log(email,password,number)
     if (!email&&!number) return next(new apierror("Invalid  request",300))
     let user=''
     if(email)
     user=await User.findOne({email,active:true}).select("+password");
     else if (number)
     user=await User.findOne({email,active_no:true}).select("+password");
-    if (!user) return next(new apierror("Incorrect password or Email/Number"))
+    if (!user) return next(new apierror("Incorrect password or Email/Number",300))
     
     if(!await user.correctPassword(password,user.password)) return next(new apierror("Incorrect password or Email/Number"))
     let token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
@@ -139,7 +140,8 @@ let {email,password,number}=req.body
         secure: false,
         httpOnly: true,
       });
-      res.status(200).json({ status: 'success', data:{token} });
+     delete user.password
+      res.status(200).json({ status: 'success', data:{token,user} });
 })
 exports.isProtected = catchAsync(async (req, res, next) => {
     let token;
