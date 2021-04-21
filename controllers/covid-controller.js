@@ -59,7 +59,7 @@ exports.makenotification=catchAsync(async (req,res,next)=>{
     }
 });
 exports.getnotification=catchAsync(async (req,res,next)=>{
-    const features = new APIFeatures(COVID.find({active:true}), req.query)
+    const features = new APIFeatures(COVID.find({active:true}).populate("verifiedBy"), req.query)
     .filter("location")
     .sort()
     .limitFields()
@@ -83,6 +83,17 @@ exports.activateaccount_no=catchAsync(async (req,res,next)=>{
     user.validtill=null;
     user.save({validateBeforeSave:false});
     res.status(200).json({status:"success",data:{covid:user}})
+})
+exports.deletenotification=catchAsync(async (req,res,next)=>{
+    let id=req.params.id;
+    if(!id)
+    return next(new apierror("invalid Request",300))
+    let covid=await COVID.findById(id);
+    if(!covid)
+    return next(new apierror("invalid Request",300))
+    covid.active=false;
+    await covid.save({validateBeforeSave:false});
+    res.status(200).json({status:"success",data:{covid}})
 })
 const modifyobj= function(string,obj){
     if(obj.photo.length>0)

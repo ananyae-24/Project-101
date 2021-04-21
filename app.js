@@ -12,6 +12,7 @@ const cookie_parser=require("cookie-parser")
 const user_router=require("./router/user_router");
 const problem_router=require("./router/problem_router")
 const covid_router=require("./router/covid_router");
+const verify_router=require("./router/verifiers_router")
 const error=require("./controllers/error")
 /////////////////////
 const limiter = ratelimiter({
@@ -38,6 +39,7 @@ app.use(
 app.use("/api/v1/user",user_router);
 app.use("/api/v1/problem",problem_router);
 app.use("/api/v1/covid",covid_router);
+app.use("/api/v1/verify",verify_router);
 app.all('*', (req, res, next) => {
    console.log(req.url)
     return next(new apierror('invalid api request', 400));

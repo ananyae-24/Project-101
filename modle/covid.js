@@ -13,6 +13,7 @@ const pointSchema = new mongoose.Schema({
       required: true
     }
   });
+
 const schema=new mongoose.Schema({
     /////////////////////////////////////
     location:{
@@ -41,9 +42,10 @@ const schema=new mongoose.Schema({
         default:false,
     },
     description:{type:"String",trim:true},
+    verifiedBy:{type:[mongoose.ObjectId],ref:"VERIFIERS"},
        /////////////////////////////////////////////////////////////////
     token:{type:String},
-    validtill:{type:Date}
+    validtill:{type:Date},
 
 },{
     toJSON: { virtuals: true },
@@ -64,5 +66,10 @@ schema.methods.generateotp=async function (){
     this.validtill=Date.now()+2*60*1000;
     return token;
 }
+// schema.methods.verifiersotp=async function(data){
+//     let token=crypto.randomBytes(3).toString('hex');
+//     this.verified
+//     return token;
+// }
 model=mongoose.model("COVID",schema);
 module.exports=model;
