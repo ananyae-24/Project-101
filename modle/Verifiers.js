@@ -3,7 +3,7 @@ const crypto=require ("crypto")
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
 const schema=new mongoose.Schema({
-    name:{type:String,required:true},
+    
     number:{type:Number,required:true},
     verifyTime:{type:Date,default:Date.now()},
     link:{type:String},
