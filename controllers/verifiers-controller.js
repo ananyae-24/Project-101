@@ -52,3 +52,20 @@ exports.getAll=catchAsync(async (req,res,next)=>{
   let problems = await features.query;
   res.status(200).json({status:"success",data:{Verifiers:problems}})
 });
+exports.makeverifierwithoutotp=catchAsync(async (req,res,next)=>{
+    if(!req.body.id) return next(new apierror("Id parameter missing",300));
+    let covid=await COVID.findById(req.body.id)
+    if(!covid || !covid.active) return next(new apierror("Wrong Id provided",300));
+    let body=req.body;
+    body.place=covid._id;
+    delete body.id;
+    if(body.active)
+    body.active=false;
+    let user=await Verifiers.create(body);
+    covid.verifiedBy.push(user._id);
+    await covid.save({ validateBeforeSave: false });
+    res.status(200).json({
+        status:"success",
+       user
+    })
+})

@@ -26,7 +26,7 @@ const upload = multer({ storage: multerStorage, fileFilter: multerfilter });
 exports.uploadmultipleimages=upload.fields([{name:"photo",maxCount:5}])
 exports.reqbodyupadate=catchAsync(async(req,res,next)=>{
    
-     if(req.files.photo)
+     if(req.files && req.files.photo)
    { let body=req.files.photo.map(el=>el.filename)
     
     req.body.photo=body}
@@ -100,3 +100,15 @@ const modifyobj= function(string,obj){
     return {...obj,photo:obj.photo.map(el=>string+el)}
     return obj
   }
+exports.makenotificationwithoutotp=catchAsync(async (req,res,next)=>{
+    let body=req.body;
+    body.active=true;
+    // if(!body.provider_contact)
+    // return next(new apierror("Not a valid number",300));
+    let [lat,long]=body.location.split(",");
+    if(!lat || !long)
+    return next(new apierror("invalid inputs to location",300))
+    body.location = {type:"Point",coordinates:[long,lat]};
+    let covid=await COVID.create(req.body);
+    res.status(200).json({message:"success",covid})
+})

@@ -35,12 +35,20 @@ const schema=new mongoose.Schema({
     // resolvedat:{
     //     type:Date
     // },
-    photo:{type:[String]},
+    
     number:{type:Number },
     active:{
         type:Boolean,
         default:false,
     },
+    name:{type:String ,required:true},
+    entity:{type:String,required:true},
+    quantity:{type:Number,required:true},
+    city:{type:String,required:true},
+    provider_name:{type:String,required:true},
+    provider_address:{type:String},
+    provider_contact:{type:Number,required:true},
+    link:{type:String},
     description:{type:"String",trim:true},
     verifiedBy:{type:[mongoose.ObjectId],ref:"VERIFIERS"},
        /////////////////////////////////////////////////////////////////
