@@ -59,8 +59,8 @@ exports.makeverifierwithoutotp=catchAsync(async (req,res,next)=>{
     let body=req.body;
     body.place=covid._id;
     delete body.id;
-    if(body.active)
-    body.active=false;
+    
+    body.active=true;
     let user=await Verifiers.create(body);
     covid.verifiedBy.push(user._id);
     await covid.save({ validateBeforeSave: false });
