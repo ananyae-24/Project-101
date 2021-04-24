@@ -45,7 +45,7 @@ const schema=new mongoose.Schema({
     entity:{type:String,required:true},
     quantity:{type:Number,required:true},
     city:{type:String,required:true},
-    provider_name:{type:String,required:true},
+    provider_name:{type:String},
     provider_address:{type:String},
     provider_contact:{type:Number,required:true},
     link:{type:String},
