@@ -101,6 +101,7 @@ const modifyobj= function(string,obj){
     return obj
   }
 exports.makenotificationwithoutotp=catchAsync(async (req,res,next)=>{
+    console.log(req.body)
     let body=req.body;
     body.active=true;
     // if(!body.provider_contact)
