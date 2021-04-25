@@ -47,7 +47,7 @@ const schema=new mongoose.Schema({
     city:{type:String},
     provider_name:{type:String},
     provider_address:{type:String},
-    provider_contact:{type:Numbere},
+    provider_contact:{type:Number,required:true},
     link:{type:String},
     description:{type:"String",trim:true},
     verifiedBy:{type:[mongoose.ObjectId],ref:"VERIFIERS"},
