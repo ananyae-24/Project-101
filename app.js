@@ -25,7 +25,7 @@ const app=express();
 app.use(cors());
 app.set('view engine', 'pug');
 app.use(cookie_parser());
-app.use(express.json({ limit: '1000kb' }));
+app.use(express.json({ limit: '50kb' }));
 app.use("/public/images",express.static(path.join(__dirname, '/public/images')));
 app.use(mongosanitize());
 app.use(xss());
@@ -41,7 +41,7 @@ app.use("/api/v1/problem",problem_router);
 app.use("/api/v1/covid",covid_router);
 app.use("/api/v1/verify",verify_router);
 app.all('*', (req, res, next) => {
-   console.log(req.url)
+  //  console.log(req.url)
     return next(new apierror('invalid api request', 400));
   });
 app.use(error);

@@ -59,12 +59,15 @@ exports.makenotification=catchAsync(async (req,res,next)=>{
     }
 });
 exports.getnotification=catchAsync(async (req,res,next)=>{
+  // console.log("Hi")
     const features = new APIFeatures(COVID.find({active:true}).populate("verifiedBy"), req.query)
     .filter("location")
     .sort()
     .limitFields()
     .paginate();
-  let problems = await features.query;
+    // console.log(features.query)
+  let problems = await features.query;//COVID.find({active:true}).populate("verifiedBy")
+  //  console.log(problems.length)
   const URL = `${req.protocol}://${req.get(
     'host'
   )}/public/images/`;
@@ -101,7 +104,7 @@ const modifyobj= function(string,obj){
     return obj
   }
 exports.makenotificationwithoutotp=catchAsync(async (req,res,next)=>{
-    console.log(req.body)
+    // console.log(req.body)
     let body=req.body;
     body.active=true;
     // if(!body.provider_contact)
