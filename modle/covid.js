@@ -52,6 +52,7 @@ const schema=new mongoose.Schema({
     link:{type:String},
     description:{type:"String",trim:true},
     verifiedBy:{type:[mongoose.ObjectId],ref:"VERIFIERS"},
+    description:{type:String},
        /////////////////////////////////////////////////////////////////
     token:{type:String},
     validtill:{type:Date},
