@@ -25,7 +25,7 @@ const app=express();
 app.use(cors());
 app.set('view engine', 'pug');
 app.use(cookie_parser());
-app.use(express.json({ limit: '10kb' }));
+app.use(express.json({ limit: '1000kb' }));
 app.use("/public/images",express.static(path.join(__dirname, '/public/images')));
 app.use(mongosanitize());
 app.use(xss());
