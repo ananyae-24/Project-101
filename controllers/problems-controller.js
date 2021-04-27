@@ -77,7 +77,7 @@ exports.updateproblem=catchAsync(async(req,res,next)=>{
 });
 exports.getallproblem=catchAsync(async(req,res,next)=>{
     const features = new APIFeatures(Problems.find(), req.query)
-    .filter("location")
+    .filter("location").or()
     .sort()
     .limitFields()
     .paginate();

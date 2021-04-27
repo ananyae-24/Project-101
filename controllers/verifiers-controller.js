@@ -45,7 +45,7 @@ exports.activateaccount_no=catchAsync(async (req,res,next)=>{
 });
 exports.getAll=catchAsync(async (req,res,next)=>{
     const features = new APIFeatures(Verifiers.find({active:true}).populate('place'), req.query)
-    .filter()
+    .filter().or()
     .sort()
     .limitFields()
     .paginate();

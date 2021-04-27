@@ -6,7 +6,7 @@ class APIFeatures {
   
     filter(feild) {
       const queryObj = { ...this.queryString };
-      const excludedFields = ['page', 'sort', 'limit', 'fields','distance','coordinates'];
+      const excludedFields = ['page', 'sort', 'limit', 'fields','distance','coordinates','or'];
       excludedFields.forEach(el => delete queryObj[el]);
       
     if (this.queryString.coordinates){
@@ -20,13 +20,25 @@ class APIFeatures {
     // console.log(queryObj)
       // 1B) Advanced filtering
       let queryStr = JSON.stringify(queryObj);
-      queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, match => `$${match}`);
-      
+      queryStr = queryStr.replace(/\b(gte|gt|lte|lt|in)\b/g, match => `$${match}`);
+      // let t=JSON.parse(queryStr);
+      // Object.keys(t).forEach((key,index)=>{t[key]=JSON.parse(t[key])})
       this.query = this.query.find(JSON.parse(queryStr));
+      
     
       return this;
     }
-  
+    or(){
+      if(this.queryString.or){
+        let str=this.queryString.or
+        str=str.substring(1, str.length-1);
+        str=str.split(',');
+        str=str.map(el=>{ let key=el.split("=")[0];let value=el.split("=")[1]
+                          return {[key]:value}})
+        this.query = this.query.find({$or:str});
+      }
+      return this;
+    }
     sort() {
       if (this.queryString.sort) {
         const sortBy = this.queryString.sort.split(',').join(' ');

@@ -61,7 +61,7 @@ exports.makenotification=catchAsync(async (req,res,next)=>{
 exports.getnotification=catchAsync(async (req,res,next)=>{
   // console.log("Hi")
     const features = new APIFeatures(COVID.find({active:true}).populate("verifiedBy"), req.query)
-    .filter("location")
+    .filter("location").or()
     .sort()
     .limitFields()
     .paginate();
