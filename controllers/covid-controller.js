@@ -116,3 +116,14 @@ exports.makenotificationwithoutotp=catchAsync(async (req,res,next)=>{
     let covid=await COVID.create(req.body);
     res.status(200).json({message:"success",covid})
 })
+exports.activatenotification=catchAsync(async (req,res,next)=>{
+  let id=req.params.id;
+  if(!id)
+  return next(new apierror("invalid Request",300))
+  let covid=await COVID.findById(id);
+  if(!covid)
+  return next(new apierror("invalid Request",300))
+  covid.active=true;
+  await covid.save({validateBeforeSave:false});
+  res.status(200).json({status:"success",data:{covid}})
+})
