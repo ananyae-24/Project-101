@@ -36,7 +36,7 @@ const schema=new mongoose.Schema({
     //     type:Date
     // },
     
-    number:{type:Number },
+    number:{type:String },
     active:{
         type:Boolean,
         default:false,
@@ -47,7 +47,7 @@ const schema=new mongoose.Schema({
     city:{type:String},
     provider_name:{type:String},
     provider_address:{type:String},
-    provider_contact:{type:Number,required:true},
+    provider_contact:{type:String,required:true},
     alternate_no:{type:String},
     link:{type:String},
     description:{type:"String",trim:true},

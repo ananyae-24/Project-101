@@ -61,11 +61,10 @@ exports.getUser=catchAsync(async (req,res,next)=>{
 })
 exports.AllUser=catchAsync(async(req,res,next)=>{
     const features = new APIFeatures(User.find(), req.query)
-      .filter("location")
+      .filter("location").or()
       .sort()
       .limitFields()
       .paginate();
     const users = await features.query;
-  
     res.status(200).json({status:"success",data:{users}})
 })

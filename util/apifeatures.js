@@ -4,11 +4,11 @@ class APIFeatures {
       this.queryString = queryString;
     }
   
-    filter(feild) {
+    filter(feild=null) {
       const queryObj = { ...this.queryString };
       const excludedFields = ['page', 'sort', 'limit', 'fields','distance','coordinates','or'];
       excludedFields.forEach(el => delete queryObj[el]);
-      
+      if(feild){
     if (this.queryString.coordinates){
         let distance=this.queryString.distance || 2;
         distance=distance/6378.1;
@@ -17,6 +17,7 @@ class APIFeatures {
             queryObj[feild]={$geoWithin:{$centerSphere:[[long,lat],distance]}}
         }
     }
+  }
     // console.log(queryObj)
       // 1B) Advanced filtering
       let queryStr = JSON.stringify(queryObj);
