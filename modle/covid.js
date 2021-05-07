@@ -60,7 +60,8 @@ const schema=new mongoose.Schema({
 },{
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
-  })
+  });
+  schema.index({entity:1,city:1}) 
 schema.methods.comparetoken=async function(usertoken,dbtoken){
     return crypto
     .createHash('sha256')

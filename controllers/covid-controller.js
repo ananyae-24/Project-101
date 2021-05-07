@@ -126,4 +126,8 @@ exports.activatenotification=catchAsync(async (req,res,next)=>{
   covid.active=true;
   await covid.save({validateBeforeSave:false});
   res.status(200).json({status:"success",data:{covid}})
+});
+exports.differententity=catchAsync(async(req,res,next)=>{
+  const agg=await COVID.aggregate([{$match: {city:req.params.city}},{$group:{_id: '$entity',count: { $sum: 1 } }}])
+  res.status(200).json({status:"success",agg})
 })
