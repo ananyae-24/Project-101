@@ -45,7 +45,7 @@ app.use("/api/v1/verify",verify_router);
 app.use("/api/v1/sos",sos_router);
 app.use("/api/v1/faq",faq_router);
 app.all('*', (req, res, next) => {
-  //  console.log(req.url)
+    console.log(req.url)
     return next(new apierror('invalid api request', 400));
   });
 app.use(error);

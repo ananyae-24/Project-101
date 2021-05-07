@@ -5,6 +5,7 @@ const sms=require("../util/sms")
 const APIFeatures=require("../util/apifeatures")
 const multer = require('multer');
 const crypto = require('crypto');
+const { Console } = require("console")
 const multerStorage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, 'public/images');
@@ -128,6 +129,11 @@ exports.activatenotification=catchAsync(async (req,res,next)=>{
   res.status(200).json({status:"success",data:{covid}})
 });
 exports.differententity=catchAsync(async(req,res,next)=>{
-  const agg=await COVID.aggregate([{$match: {city:req.params.city}},{$group:{_id: '$entity',count: { $sum: 1 } }}])
+  let match=req.params.match.substring(1,req.params.match.length-1);
+  let t=new Object();
+  t[match.substring(0,match.indexOf(","))]=match.substring(match.indexOf(",")+1)
+  match=t;
+  let group=req.params.group;
+  const agg=await COVID.aggregate([{$match: match},{$group:{_id: "$"+group,count: { $sum: 1 } }}])
   res.status(200).json({status:"success",agg})
 })
