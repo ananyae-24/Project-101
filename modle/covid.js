@@ -18,7 +18,7 @@ const schema=new mongoose.Schema({
     /////////////////////////////////////
     location:{
         type:pointSchema,
-        required: true,
+        
     },
     photo:{type:[String]},
     filedAt:{
@@ -36,23 +36,22 @@ const schema=new mongoose.Schema({
     //     type:Date
     // },
     
-    number:{type:String },
+    // number:{type:String },
     active:{
         type:Boolean,
         default:false,
     },
     name:{type:String },
     entity:{type:String},
-    quantity:{type:Number},
     city:{type:String},
-    provider_name:{type:String},
+    state:{type:String},
     provider_address:{type:String},
-    provider_contact:{type:String,required:true},
-    alternate_no:{type:String},
+    contact:{type:String,required:true},
     link:{type:String},
     description:{type:"String",trim:true},
     verifiedBy:{type:[mongoose.ObjectId],ref:"VERIFIERS"},
     description:{type:String},
+    vote:{type:Object,default:{upvote:0,downvote:0,remarks:[],reasons:[]}},
        /////////////////////////////////////////////////////////////////
     token:{type:String},
     validtill:{type:Date},

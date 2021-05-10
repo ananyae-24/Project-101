@@ -5,7 +5,6 @@ const sms=require("../util/sms")
 const APIFeatures=require("../util/apifeatures")
 const multer = require('multer');
 const crypto = require('crypto');
-const { Console } = require("console")
 const multerStorage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, 'public/images');
@@ -110,12 +109,32 @@ exports.makenotificationwithoutotp=catchAsync(async (req,res,next)=>{
     body.active=true;
     // if(!body.provider_contact)
     // return next(new apierror("Not a valid number",300));
-    let [lat,long]=body.location.split(",");
-    if(!lat || !long)
-    return next(new apierror("invalid inputs to location",300))
-    body.location = {type:"Point",coordinates:[long,lat]};
+    // let [lat,long]=body.location.split(",");
+    // if(!lat || !long)
+    // return next(new apierror("invalid inputs to location",300))
+    // body.location = {type:"Point",coordinates:[long,lat]};
     let covid=await COVID.create(req.body);
     res.status(200).json({message:"success",covid})
+})
+exports.upvote_downvote=catchAsync(async(req,res,next)=>{
+  let id=req.params.id;
+  let covid=await COVID.findById(id);
+  let t={...covid.vote}
+  if(req.params.up=="true"){
+    t.upvote+=1;
+  }
+  else{
+    t.downvote+=1;
+    if(req.body.remark)
+    {
+      t.remarks.push({remark:req.body.remark, filedAt:Date.now()}) 
+    }
+    if(req.body.reason)
+    t.reasons.push({remark:req.body.reason, filedAt:Date.now()})
+  }
+  covid.vote=t;
+  covid.save({validateBeforeSave:false})
+  res.status(200).json({status:"success",covid})
 })
 exports.activatenotification=catchAsync(async (req,res,next)=>{
   let id=req.params.id;
