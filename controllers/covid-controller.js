@@ -142,8 +142,11 @@ exports.activatenotification=catchAsync(async (req,res,next)=>{
 });
 exports.differententity=catchAsync(async(req,res,next)=>{
   let match=req.params.match.substring(1,req.params.match.length-1);
+  match=match.split(",");
   let t=new Object();
-  t[match.substring(0,match.indexOf(","))]=match.substring(match.indexOf(",")+1)
+  for(let i=0;i<match.length;i+=2){
+    t[match[i]]=match[i+1];
+  }
   match=t;
   let group=req.params.group;
   const agg=await COVID.aggregate([{$match: match},{$group:{_id: "$"+group,count: { $sum: 1 } }}])
