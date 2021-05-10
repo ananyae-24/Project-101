@@ -38,6 +38,7 @@ app.use(
   })
 );
 ///////////////////////////////
+app.use('/api', limiter);
 app.use("/api/v1/user",user_router);
 app.use("/api/v1/problem",problem_router);
 app.use("/api/v1/covid",covid_router);
