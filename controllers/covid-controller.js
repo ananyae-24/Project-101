@@ -104,15 +104,8 @@ const modifyobj= function(string,obj){
     return obj
   }
 exports.makenotificationwithoutotp=catchAsync(async (req,res,next)=>{
-    // console.log(req.body)
     let body=req.body;
     body.active=true;
-    // if(!body.provider_contact)
-    // return next(new apierror("Not a valid number",300));
-    // let [lat,long]=body.location.split(",");
-    // if(!lat || !long)
-    // return next(new apierror("invalid inputs to location",300))
-    // body.location = {type:"Point",coordinates:[long,lat]};
     let covid=await COVID.create(req.body);
     res.status(200).json({message:"success",covid})
 })

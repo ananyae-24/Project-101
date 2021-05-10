@@ -45,7 +45,7 @@ const schema=new mongoose.Schema({
     entity:{type:String},
     city:{type:String},
     state:{type:String},
-    provider_address:{type:String},
+    address:{type:String},
     contact:{type:String,required:true},
     link:{type:String},
     description:{type:"String",trim:true},
