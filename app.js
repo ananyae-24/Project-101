@@ -18,12 +18,13 @@ const verify_router=require("./router/verifiers_router")
 const error=require("./controllers/error")
 /////////////////////
 const limiter = ratelimiter({
-    max: 100,
+    max: 100000,
     windowMs: 60 * 60 * 1000,
     message: 'too many request',
   });
 ///////////////////
 const app=express();
+app.use(compression())
 app.use(cors());
 app.set('view engine', 'pug');
 app.use(cookie_parser());
